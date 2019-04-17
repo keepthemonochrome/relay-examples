@@ -49,6 +49,13 @@ const app: WebpackDevServer = new WebpackDevServer(compiler, {
   stats: {colors: true},
 });
 
+// The root provides a resolver function for each API endpoint
+var root = {
+  hello: () => {
+    return 'Hello world!';
+  },
+};
+
 // Serve static resources
 app.use('/', express.static(path.resolve(__dirname, 'public')));
 
@@ -58,6 +65,8 @@ app.use(
   graphQLHTTP({
     schema: schema,
     pretty: true,
+    rootValue: root,
+    graphiql: true,
   }),
 );
 
